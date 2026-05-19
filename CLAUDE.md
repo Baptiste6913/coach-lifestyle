@@ -1,0 +1,49 @@
+@AGENTS.md
+
+# coach-lifestyle — contexte projet
+
+App perso de suivi multi-domaines (force, vitalité, nutrition, vision, coach LLM). MVP solo, owner = Baptiste.
+
+## Stack figée
+- **Next.js 16** (App Router, Server Components par défaut, Server Actions pour les mutations) — note : `create-next-app@latest` du 2026-05-19 a installé Next 16.2.6, pas 15. À valider/downgrader si besoin.
+- **Supabase** : Postgres + Auth (magic link) + RLS dès J1. Migrations dans `supabase/migrations/`. Types TS générés via `supabase gen types typescript`.
+- **TanStack Query** : cache client + mutations optimistes (latence saisie gym masquée).
+- **Tailwind 4** + shadcn/ui à init si besoin.
+- **Zod** : schémas de validation côté server actions.
+- **Vercel** : déploiement.
+- **PAS de Dexie / sql.js / Serwist en Phase 1** — Phase 9 ajoutera l'offline.
+
+## Conventions
+- Mutations = Server Actions (`"use server"`), pas de Route Handlers en Phase 1.
+- Tous les fetchs initiaux dans Server Components — un seul JOIN au mount par page interactive.
+- Mutations client → TanStack Query `useMutation` avec `onMutate` pour optimistic UI.
+- Pas d'API routes (`app/api/*`) sauf Phase 2+ (crons, webhooks externes).
+- RLS systématique : `auth.uid() = user_id` sur toutes les tables.
+- Migrations SQL versionnées, pas d'ORM (Drizzle/Prisma) pour rester proche de Supabase natif.
+
+## Règles d'écriture
+- Communication style owner : dense, structuré, analytique, peu de prose.
+- Pas d'emojis sauf demande explicite.
+- Pas de commentaires WHAT, seulement WHY non-évident.
+- Pas de docs/README générés sans demande.
+- Pas de refactor surfacique en bonus.
+
+## Structure repo
+```
+src/app/                 # routes App Router
+src/lib/                 # utils, clients Supabase, queries
+supabase/migrations/     # SQL versionnés
+data/import/             # sources d'import (programme v7, etc.)
+prompts/                 # briefs par phase pour Claude Code
+PROGRESS.md              # journal des décisions et avancement
+```
+
+## Lien Obsidian
+Le vault `/Users/baptiste/Documents/Obsidian Vault/50_Projets_perso/` contiendra un `_index.md` pour ce projet (cohérence avec aura-io). À créer plus tard.
+
+## Profil owner (résumé pour décisions de coaching futures)
+- 3 ans d'entraînement, programme structuré v7
+- Tracking RHR longitudinal (cible 55, baseline 72)
+- Style data-driven, analytique, communication dense
+- Délègue la programmation mais conteste les changements silencieux de paramètres structurels (cf. retrait pyramidal en v6)
+- Source détaillée : `data/import/health-profile-export.json` (à copier depuis `~/Downloads/` quand on en aura besoin)
