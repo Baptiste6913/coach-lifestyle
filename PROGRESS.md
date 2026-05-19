@@ -24,6 +24,13 @@ Journal chronologique des décisions et de l'avancement par phase.
 | D12 | RLS activée sur toutes les tables dès J1, même en solo | Futureproof (cas multi-user éventuel) |
 | D13 | `exercises` per-user en Phase 1 (catalogue privé) | Simplifie l'isolation. Phase 7+ pourra mutualiser un sous-ensemble |
 | D14 | Migrations SQL natives Supabase (pas Drizzle/Prisma) | Reste proche de l'outil, types TS générés via `supabase gen types` |
+| D15 | **Next.js 16.2.6 figé** (pas de downgrade vers 15) | Version actuelle, Server Components/Actions stables entre 15 et 16, AGENTS.md déjà installé flagge les breaking changes, évite un upgrade futur. Décidé 2026-05-19 après bootstrap |
+| D16 | Migration SQL `20260519172500_init_schema.sql` **validée** par owner après review (2026-05-19) | 8 tables + RLS + orthogonalisation. Pas encore appliquée — en attente création projet Supabase par owner |
+
+### Décisions techniques notées (limitations connues)
+
+- **Validation supersets en app-level uniquement.** Les règles "primary_muscle différent entre les 2 exos d'une paire" et "pas 2 compounds dans une paire" ne sont **pas** des CHECK constraints en DB (cross-row impossible sans trigger). Elles sont enforcées dans le script `import:program-v7` et dans la Server Action du setup wizard. Si un jour on veut une garantie DB-level, ajouter un trigger `BEFORE INSERT/UPDATE` sur `program_exercises` qui requête la paire et lève si violation. À reconsidérer si on ouvre l'édition multi-source (Phase 7+ coach LLM qui modifie le programme).
+- **`.env.local` confirmé gitignored** par pattern `.env*` (.env.example whitelistée). Vérifié 2026-05-19 par `git check-ignore -v`.
 
 ### Réalisations bootstrap
 
@@ -56,7 +63,7 @@ Journal chronologique des décisions et de l'avancement par phase.
 
 | Étape | Description | Statut | Critère "ça marche" |
 |---|---|---|---|
-| A | Schémas DB + RLS | **En attente review SQL** | `\d` dans psql liste 8 tables ; insert anon refusé ; insert authenticated OK |
+| A | Schémas DB + RLS | **SQL validé — en attente création projet Supabase par owner** | `\d` dans psql liste 8 tables ; insert anon refusé ; insert authenticated OK |
 | B | Seed `exercises` (29 exos du programme v7) | À faire | 29 lignes, chaque isolation a `primary_muscle` set |
 | C | Script `import:program-v7` | À faire | Idempotent ; 1 program + 4 sessions + N exos + prescribed_sets cohérents |
 | D | Setup wizard exercices (+ override RPE) | À faire | UI permet ajout/réordonnement ; validation supersets |

@@ -5,7 +5,7 @@
 App perso de suivi multi-domaines (force, vitalité, nutrition, vision, coach LLM). MVP solo, owner = Baptiste.
 
 ## Stack figée
-- **Next.js 16** (App Router, Server Components par défaut, Server Actions pour les mutations) — note : `create-next-app@latest` du 2026-05-19 a installé Next 16.2.6, pas 15. À valider/downgrader si besoin.
+- **Next.js 16.2.6** (App Router, Server Components par défaut, Server Actions pour les mutations). Choix figé 2026-05-19. Toute syntaxe utilisée doit être celle de Next 16 — pas de mix avec Next 15. AGENTS.md auto-généré pointe les breaking changes ; relire `node_modules/next/dist/docs/` au moindre doute.
 - **Supabase** : Postgres + Auth (magic link) + RLS dès J1. Migrations dans `supabase/migrations/`. Types TS générés via `supabase gen types typescript`.
 - **TanStack Query** : cache client + mutations optimistes (latence saisie gym masquée).
 - **Tailwind 4** + shadcn/ui à init si besoin.
