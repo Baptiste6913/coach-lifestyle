@@ -28,15 +28,30 @@ App perso de suivi multi-domaines (force, vitalité, nutrition, vision, coach LL
 - Pas de docs/README générés sans demande.
 - Pas de refactor surfacique en bonus.
 
-## Structure repo
+## Structure repo — single-app
+
+Single-app Next.js, **pas de monorepo** en Phase 1-8. Refactor monorepo (Turborepo ou équivalent) prévu en Phase 9 si nécessaire — quand `apps/sync` (Amazfit) sera ajouté. Décidé 2026-05-19.
+
 ```
-src/app/                 # routes App Router
-src/lib/                 # utils, clients Supabase, queries
-supabase/migrations/     # SQL versionnés
-data/import/             # sources d'import (programme v7, etc.)
-prompts/                 # briefs par phase pour Claude Code
-PROGRESS.md              # journal des décisions et avancement
+coach-lifestyle/
+├── app/                    # App Router pages — racine, pas de src/
+├── components/             # UI shadcn/ui + custom
+├── lib/                    # logique métier, clients externes, queries
+│   ├── coach/              # Phase 6+ — Anthropic client, prompts coach
+│   ├── vision/             # Phase 4 — analyse photo repas
+│   ├── workout-engine/     # Phase 3 — calculs 1RM, volume, PR detection
+│   └── gamification/       # Phase 5+ — XP, quêtes, achievements
+├── supabase/migrations/    # SQL versionnés
+├── scripts/                # seed, import (npm run import:program-v7, etc.)
+├── data/import/            # sources d'import (programme v7, profil santé)
+├── docs/                   # docs métier (formules vitalité, conventions, etc.)
+├── prompts/                # briefs par phase pour Claude Code
+├── PROGRESS.md             # journal des décisions et avancement
+├── CLAUDE.md               # ce fichier
+└── .env.local              # racine (NEXT_PUBLIC_SUPABASE_URL, ANON_KEY, SERVICE_ROLE_KEY, ANTHROPIC_API_KEY)
 ```
+
+Path alias TS : `@/*` → `./*` (racine, pas `src/`).
 
 ## Lien Obsidian
 Le vault `/Users/baptiste/Documents/Obsidian Vault/50_Projets_perso/` contiendra un `_index.md` pour ce projet (cohérence avec aura-io). À créer plus tard.

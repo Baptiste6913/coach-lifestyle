@@ -26,6 +26,8 @@ Journal chronologique des décisions et de l'avancement par phase.
 | D14 | Migrations SQL natives Supabase (pas Drizzle/Prisma) | Reste proche de l'outil, types TS générés via `supabase gen types` |
 | D15 | **Next.js 16.2.6 figé** (pas de downgrade vers 15) | Version actuelle, Server Components/Actions stables entre 15 et 16, AGENTS.md déjà installé flagge les breaking changes, évite un upgrade futur. Décidé 2026-05-19 après bootstrap |
 | D16 | Migration SQL `20260519172500_init_schema.sql` **validée** par owner après review (2026-05-19) | 8 tables + RLS + orthogonalisation. Pas encore appliquée — en attente création projet Supabase par owner |
+| D17 | **Single-app, pas de monorepo Phase 1-8** | Phase 1-8 ne nécessitent pas Turborepo. `apps/sync` (Amazfit) = Phase 9, dans 4-6 mois minimum. Single-app plus simple à maintenir. Refactor monorepo sera fait à Phase 9 si nécessaire. Structure flat à la racine (`app/`, `components/`, `lib/`, `scripts/`, `docs/`, `prompts/`), `.env.local` à la racine. Path alias `@/*` → `./*` |
+| D18 | Apply migration via **`supabase` CLI** (`supabase link` + `supabase db push`) puis `supabase gen types typescript --linked > lib/database.types.ts` | Permet de générer auto les types TS Postgres → TypeScript, gain de productivité/sûreté |
 
 ### Décisions techniques notées (limitations connues)
 
