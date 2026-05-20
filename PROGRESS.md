@@ -33,6 +33,12 @@ Journal chronologique des décisions et de l'avancement par phase.
 
 - **Validation supersets en app-level uniquement.** Les règles "primary_muscle différent entre les 2 exos d'une paire" et "pas 2 compounds dans une paire" ne sont **pas** des CHECK constraints en DB (cross-row impossible sans trigger). Elles sont enforcées dans le script `import:program-v7` et dans la Server Action du setup wizard. Si un jour on veut une garantie DB-level, ajouter un trigger `BEFORE INSERT/UPDATE` sur `program_exercises` qui requête la paire et lève si violation. À reconsidérer si on ouvre l'édition multi-source (Phase 7+ coach LLM qui modifie le programme).
 - **`.env.local` confirmé gitignored** par pattern `.env*` (.env.example whitelistée). Vérifié 2026-05-19 par `git check-ignore -v`.
+- **Ports Postgres outbound (5432, 6543) bloqués depuis le réseau du owner** (firewall corporate/FAI restrictif — confirmé via Python socket test 2026-05-20 ; SSH port 22 aussi bloqué, cf. clone via HTTPS). Port 443 OK. Conséquence : **`supabase db push` et `supabase gen types --linked` impossibles** dans ces conditions. Workaround utilisé : **Supabase Management API** (HTTPS port 443) :
+  - `POST /v1/projects/{ref}/database/query` pour appliquer les migrations (envoyer le SQL dans `{"query": "..."}`)
+  - `GET /v1/projects/{ref}/types/typescript?included_schemas=public` pour les types (champ `types` à extraire)
+  - Auth via header `Authorization: Bearer <SUPABASE_ACCESS_TOKEN>` (PAT créé sur supabase.com/dashboard/account/tokens)
+  - **Important** : utiliser `curl -d @fichier.json` PAS process substitution `-d @<(...)` qui tronque le payload silencieusement (l'API retourne 201 + `[]` sans rien faire, debug perdu 30 min)
+  - Si possible, applique les futures migrations depuis un réseau permissif (home, mobile hotspot) via la CLI standard — c'est plus rapide. Workaround Management API à réutiliser si réseau restrictif.
 
 ### Réalisations bootstrap
 
@@ -65,7 +71,7 @@ Journal chronologique des décisions et de l'avancement par phase.
 
 | Étape | Description | Statut | Critère "ça marche" |
 |---|---|---|---|
-| A | Schémas DB + RLS | **SQL validé — en attente création projet Supabase par owner** | `\d` dans psql liste 8 tables ; insert anon refusé ; insert authenticated OK |
+| A | Schémas DB + RLS | **✓ FAIT 2026-05-20** | 8 tables + 8 policies RLS + 2 enums vérifiés via Management API. `lib/database.types.ts` généré (603 lignes) |
 | B | Seed `exercises` (29 exos du programme v7) | À faire | 29 lignes, chaque isolation a `primary_muscle` set |
 | C | Script `import:program-v7` | À faire | Idempotent ; 1 program + 4 sessions + N exos + prescribed_sets cohérents |
 | D | Setup wizard exercices (+ override RPE) | À faire | UI permet ajout/réordonnement ; validation supersets |
