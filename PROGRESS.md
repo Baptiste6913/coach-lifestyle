@@ -41,6 +41,8 @@ Journal chronologique des décisions et de l'avancement par phase.
   - Auth via header `Authorization: Bearer <SUPABASE_ACCESS_TOKEN>` (PAT créé sur supabase.com/dashboard/account/tokens)
   - **Important** : utiliser `curl -d @fichier.json` PAS process substitution `-d @<(...)` qui tronque le payload silencieusement (l'API retourne 201 + `[]` sans rien faire, debug perdu 30 min)
   - Si possible, applique les futures migrations depuis un réseau permissif (home, mobile hotspot) via la CLI standard — c'est plus rapide. Workaround Management API à réutiliser si réseau restrictif.
+- **`NEXT_PUBLIC_SUPABASE_URL` ne doit PAS contenir de path** (ex: pas `/rest/v1/` à la fin). Le client Supabase suffixe lui-même les paths selon le service (`/auth/v1/...` pour Auth, `/rest/v1/...` pour PostgREST). Si tu copies par erreur depuis la section "Project API URL" (qui montre `https://xxx.supabase.co/rest/v1/`), l'erreur Supabase Auth est trompeuse : "Invalid path specified in request URL" qui ressemble à un problème de Redirect URLs allow list. Vérifié 2026-05-25 — l'URL correcte est uniquement `https://<project-ref>.supabase.co`.
+- **Onboarding flow auth** : "Enable email signups" doit être ON pour le 1er login (création auto de `auth.users` quand Supabase envoie le magic link). **Après le 1er login validé**, désactiver "Enable email signups" dans Studio → Authentication → Providers → Email pour bloquer toute autre inscription. À faire manuellement par l'owner. À documenter ici quand fait.
 
 ### Réalisations bootstrap
 
@@ -76,6 +78,7 @@ Journal chronologique des décisions et de l'avancement par phase.
 | A | Schémas DB + RLS | **✓ FAIT 2026-05-20** | 8 tables + 8 policies RLS + 2 enums vérifiés via Management API. `lib/database.types.ts` généré (603 lignes) |
 | A.1 | Refactor `exercises` → table publique (correction D19) | **✓ FAIT 2026-05-25** | `user_id` retiré, policy `exercises_public_read` (SELECT authenticated USING true), aucune policy write |
 | B | Seed `exercises` (28 exos starter library) | **✓ FAIT 2026-05-25** | 28 lignes (29 instances - 1 doublon Face Pulls). 10 compounds / 18 isolations. Idempotence vérifiée (re-run → 28, 0 doublon). Starter library — l'import IA-based de programmes complets viendra en Phase 1.5 |
+| C | Auth magic link Supabase + route group protégé | **✓ FAIT 2026-05-25** | Clients Supabase SSR (server/client/middleware) + `proxy.ts` Next 16 (renommage middleware→proxy). `/login` Server Action sendMagicLink, callback GET, signout POST (anti-CSRF). Garde `(app)/layout.tsx` + dashboard stub. T1-T8 owner validés (incl. T8 = 1 user dans auth.users) |
 | C | Script `import:program-v7` | À faire | Idempotent ; 1 program + 4 sessions + N exos + prescribed_sets cohérents |
 | D | Setup wizard exercices (+ override RPE) | À faire | UI permet ajout/réordonnement ; validation supersets |
 | E | Saisie initiale 1RM | À faire | 1 ligne `exercise_1rm_history` par compound ; suggested weight correct |
