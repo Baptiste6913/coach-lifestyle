@@ -29,6 +29,7 @@ Journal chronologique des décisions et de l'avancement par phase.
 | D17 | **Single-app, pas de monorepo Phase 1-8** | Phase 1-8 ne nécessitent pas Turborepo. `apps/sync` (Amazfit) = Phase 9, dans 4-6 mois minimum. Single-app plus simple à maintenir. Refactor monorepo sera fait à Phase 9 si nécessaire. Structure flat à la racine (`app/`, `components/`, `lib/`, `scripts/`, `docs/`, `prompts/`), `.env.local` à la racine. Path alias `@/*` → `./*` |
 | D18 | Apply migration via **`supabase` CLI** (`supabase link` + `supabase db push`) puis `supabase gen types typescript --linked > lib/database.types.ts` | Permet de générer auto les types TS Postgres → TypeScript, gain de productivité/sûreté |
 | D19 | **`exercises` = table de référence publique, PAS user-scoped** (correction 2026-05-25). `user_id` supprimée, `UNIQUE (slug)`, policy `SELECT TO authenticated USING (true)`, aucune policy INSERT/UPDATE/DELETE (writes réservées au service_role pour seed) | Bug de design détecté avant le seed : les 29 exos du programme v7 sont communs à tous les users, pas besoin de dupliquer par user. Spec initiale `prompts/PHASE_1_VITALITY.md` le mentionnait déjà ("pas user_id, c'est partagé"). Migration corrective `20260525110000_exercises_public_reference.sql`. Si Phase 7+ veut des exos custom par user, ajouter colonne `created_by UUID NULL` + policy adaptée |
+| D20 | **Claude API hybride, on-demand uniquement, hard cap $15/mois Anthropic** | Ollama local rejeté (machine 24/7, qualité, complexité réseau). Claude API uniquement sur action user explicite (jamais de jobs automatiques). Phase 1 = zéro usage IA. L'import IA-based de programmes complets (parsing texte libre, classification exos) arrive en **Phase 1.5**, juste après Phase 1 |
 
 ### Décisions techniques notées (limitations connues)
 
@@ -74,7 +75,7 @@ Journal chronologique des décisions et de l'avancement par phase.
 |---|---|---|---|
 | A | Schémas DB + RLS | **✓ FAIT 2026-05-20** | 8 tables + 8 policies RLS + 2 enums vérifiés via Management API. `lib/database.types.ts` généré (603 lignes) |
 | A.1 | Refactor `exercises` → table publique (correction D19) | **✓ FAIT 2026-05-25** | `user_id` retiré, policy `exercises_public_read` (SELECT authenticated USING true), aucune policy write |
-| B | Seed `exercises` (29 exos du programme v7) | **En attente GO owner** | 29 lignes, chaque isolation a `primary_muscle` set |
+| B | Seed `exercises` (28 exos starter library) | **✓ FAIT 2026-05-25** | 28 lignes (29 instances - 1 doublon Face Pulls). 10 compounds / 18 isolations. Idempotence vérifiée (re-run → 28, 0 doublon). Starter library — l'import IA-based de programmes complets viendra en Phase 1.5 |
 | C | Script `import:program-v7` | À faire | Idempotent ; 1 program + 4 sessions + N exos + prescribed_sets cohérents |
 | D | Setup wizard exercices (+ override RPE) | À faire | UI permet ajout/réordonnement ; validation supersets |
 | E | Saisie initiale 1RM | À faire | 1 ligne `exercise_1rm_history` par compound ; suggested weight correct |
