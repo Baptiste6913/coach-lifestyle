@@ -153,7 +153,6 @@ export type Database = {
           secondary_muscles: Json
           slug: string
           updated_at: string
-          user_id: string
           video_url: string | null
         }
         Insert: {
@@ -167,7 +166,6 @@ export type Database = {
           secondary_muscles?: Json
           slug: string
           updated_at?: string
-          user_id: string
           video_url?: string | null
         }
         Update: {
@@ -181,7 +179,6 @@ export type Database = {
           secondary_muscles?: Json
           slug?: string
           updated_at?: string
-          user_id?: string
           video_url?: string | null
         }
         Relationships: []
