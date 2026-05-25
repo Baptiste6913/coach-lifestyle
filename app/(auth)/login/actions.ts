@@ -41,11 +41,11 @@ export async function sendMagicLink(
     headersList.get('origin') ??
     `http://${headersList.get('host') ?? 'localhost:3000'}`
 
+  const emailRedirectTo = `${origin}/auth/callback`
+
   const { error } = await supabase.auth.signInWithOtp({
     email: parsed.data.email,
-    options: {
-      emailRedirectTo: `${origin}/auth/callback`,
-    },
+    options: { emailRedirectTo },
   })
 
   if (error) {
