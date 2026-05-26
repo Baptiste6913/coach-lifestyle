@@ -146,11 +146,21 @@ export function LiveWorkout(props: Props) {
 
   return (
     <div className="space-y-4">
-      <header className="flex items-center justify-between text-xs text-neutral-500">
-        <span>{props.programSessionName}</span>
-        <span>
-          {doneSets}/{totalSets} sets
-        </span>
+      <header className="space-y-2">
+        <div className="flex items-center justify-between text-xs uppercase tracking-wider text-neutral-500">
+          <span>{props.programSessionName}</span>
+          <span className="font-mono tabular-nums text-neutral-700 dark:text-neutral-300">
+            {doneSets}/{totalSets} sets
+          </span>
+        </div>
+        <div className="h-0.5 w-full overflow-hidden rounded-full bg-neutral-200 dark:bg-neutral-800">
+          <div
+            className="h-full bg-orange-500 transition-all duration-200"
+            style={{
+              width: `${totalSets > 0 ? (doneSets / totalSets) * 100 : 0}%`,
+            }}
+          />
+        </div>
       </header>
 
       <SetCard
