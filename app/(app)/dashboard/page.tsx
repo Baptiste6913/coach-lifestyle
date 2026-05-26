@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata = {
@@ -15,9 +16,12 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <header className="space-y-1">
-        <h1 className="text-xl font-semibold">Dashboard</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Dashboard</h1>
         <p className="text-sm text-neutral-500">
-          Connecté en tant que <span className="font-mono">{user?.email}</span>.
+          Connecté :{' '}
+          <span className="font-mono text-neutral-700 dark:text-neutral-300">
+            {user?.email}
+          </span>
         </p>
       </header>
 
@@ -34,14 +38,19 @@ export default async function DashboardPage() {
           <ActionCard
             href="/setup/one-rep-maxes"
             title="Saisir mes 1RM"
-            description="Mets à jour les 1RM des compounds — utilisés pour suggérer les poids."
+            description="Met à jour les 1RM — utilisés pour suggérer les poids."
           />
         </div>
       </section>
 
-      <p className="text-sm text-neutral-500">
-        Le radar 6 stats arrive en étape H. Pour l&apos;instant : stub auth.
-      </p>
+      <section className="space-y-3">
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-neutral-500">
+          Vitalité
+        </h2>
+        <div className="rounded-lg border border-dashed border-neutral-300 bg-white p-6 text-center text-sm text-neutral-500 dark:border-neutral-700 dark:bg-neutral-900">
+          Le radar 6 stats arrive en étape H.
+        </div>
+      </section>
     </div>
   )
 }
@@ -58,10 +67,17 @@ function ActionCard({
   return (
     <Link
       href={href}
-      className="block rounded-md border border-neutral-200 bg-white p-3 transition hover:border-neutral-400 hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-600 dark:hover:bg-neutral-900"
+      className="flex min-h-14 items-center gap-3 rounded-lg border border-neutral-200 bg-white p-4 transition-colors hover:border-neutral-400 hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-600 dark:hover:bg-neutral-800"
     >
-      <div className="text-sm font-medium">{title}</div>
-      <div className="mt-0.5 text-xs text-neutral-500">{description}</div>
+      <div className="flex-1 space-y-0.5">
+        <div className="text-sm font-medium">{title}</div>
+        <div className="text-xs text-neutral-500">{description}</div>
+      </div>
+      <ChevronRight
+        size={16}
+        className="shrink-0 text-neutral-400"
+        aria-hidden="true"
+      />
     </Link>
   )
 }

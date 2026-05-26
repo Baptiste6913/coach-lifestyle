@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { Button } from '@/components/ui/button'
 import type { ProgramExerciseLike, SequenceStep } from './sequence'
 import { weightStep } from './sequence'
 
@@ -29,11 +30,11 @@ export function SetCard(props: Props) {
   const isCompound = props.exercise.exercises.category === 'compound'
   const wStep = weightStep(isCompound)
   const defaultReps = Math.round(
-    (props.prescribedSet.target_reps_low + props.prescribedSet.target_reps_high) /
+    (props.prescribedSet.target_reps_low +
+      props.prescribedSet.target_reps_high) /
       2,
   )
 
-  // Reset des states quand on change de set (set_index ou exercise change)
   const setKey = `${props.exercise.id}-${props.prescribedSet.set_index}`
   const [weight, setWeight] = useState<number | ''>('')
   const [reps, setReps] = useState<number | ''>('')
@@ -69,40 +70,58 @@ export function SetCard(props: Props) {
   const exo = props.exercise
 
   return (
-    <div className="space-y-4">
-      {/* Superset header */}
+    <div className="space-y-5">
       {props.step.superset && (
-        <div className="rounded-md bg-blue-100 px-3 py-2 text-xs font-medium text-blue-900 dark:bg-blue-950 dark:text-blue-200">
+        <div className="rounded-md border border-neutral-200 bg-neutral-100 px-3 py-2 text-xs font-medium text-neutral-700 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300">
           Superset {props.step.superset.group} — exo{' '}
-          {props.step.superset.position}/2 · tour {props.step.superset.round}/
-          {props.step.superset.totalRounds}
+          <span className="font-mono tabular-nums">
+            {props.step.superset.position}/2
+          </span>{' '}
+          · tour{' '}
+          <span className="font-mono tabular-nums">
+            {props.step.superset.round}/{props.step.superset.totalRounds}
+          </span>
         </div>
       )}
 
-      {/* Exercise header */}
-      <header className="space-y-1">
-        <h1 className="text-2xl font-semibold leading-tight">
+      <header className="space-y-1.5">
+        <h1 className="text-xl font-semibold leading-tight tracking-tight">
           {exo.exercises.name}
         </h1>
         <div className="text-sm text-neutral-500">
-          Set {props.prescribedSet.set_index}/{exo.target_sets}
+          Set{' '}
+          <span className="font-mono tabular-nums text-neutral-700 dark:text-neutral-300">
+            {props.prescribedSet.set_index}/{exo.target_sets}
+          </span>
           {targetPctDisplay !== null && (
             <>
               {' · '}
-              <span className="font-medium">@ {targetPctDisplay} % du 1RM</span>
+              <span className="font-medium text-neutral-700 dark:text-neutral-300">
+                @ <span className="font-mono tabular-nums">{targetPctDisplay}</span>{' '}
+                % du 1RM
+              </span>
             </>
           )}
           {props.prescribedSet.is_warmup && (
-            <span className="ml-2 inline-block rounded bg-orange-200 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-orange-900 dark:bg-orange-900 dark:text-orange-200">
+            <span className="ml-2 inline-block rounded border border-amber-500/40 bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-300">
               Warmup
             </span>
           )}
         </div>
         <div className="text-xs text-neutral-500">
-          Cible : {props.prescribedSet.target_reps_low}–
-          {props.prescribedSet.target_reps_high} reps
+          Cible :{' '}
+          <span className="font-mono tabular-nums">
+            {props.prescribedSet.target_reps_low}–
+            {props.prescribedSet.target_reps_high}
+          </span>{' '}
+          reps
           {props.prescribedSet.rpe_target != null && (
-            <> · RPE {props.prescribedSet.rpe_target}</>
+            <>
+              {' · RPE '}
+              <span className="font-mono tabular-nums">
+                {props.prescribedSet.rpe_target}
+              </span>
+            </>
           )}
         </div>
         {exo.warmup_protocol && (
@@ -118,7 +137,7 @@ export function SetCard(props: Props) {
         {props.lastSet && (
           <div className="text-xs text-neutral-500">
             Dernière fois :{' '}
-            <span className="font-mono">
+            <span className="font-mono tabular-nums">
               {props.lastSet.weight_kg} × {props.lastSet.reps}
               {props.lastSet.rpe != null && ` @${props.lastSet.rpe}`}
             </span>
@@ -131,7 +150,6 @@ export function SetCard(props: Props) {
         )}
       </header>
 
-      {/* Weight + Reps inputs */}
       <div className="grid grid-cols-2 gap-3">
         <NumericInput
           label="Poids (kg)"
@@ -151,37 +169,42 @@ export function SetCard(props: Props) {
         />
       </div>
 
-      {/* RPE */}
-      <div className="space-y-1.5">
-        <label className="text-sm font-medium">RPE (optionnel)</label>
+      <div className="space-y-2">
+        <label className="text-xs font-medium uppercase tracking-wider text-neutral-500">
+          RPE (optionnel)
+        </label>
         <div className="grid grid-cols-6 gap-1.5">
-          {RPE_VALUES.map((v) => (
-            <button
-              key={v}
-              type="button"
-              onClick={() => setRpe(rpe === v ? null : v)}
-              className={
-                'rounded-md border py-2 text-sm font-medium transition ' +
-                (rpe === v
-                  ? 'border-neutral-900 bg-neutral-900 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900'
-                  : 'border-neutral-300 bg-white text-neutral-900 hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100 dark:hover:bg-neutral-900')
-              }
-            >
-              {v}
-            </button>
-          ))}
+          {RPE_VALUES.map((v) => {
+            const selected = rpe === v
+            return (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setRpe(selected ? null : v)}
+                className={
+                  'min-h-12 rounded-md border font-mono text-sm font-medium tabular-nums transition-colors ' +
+                  (selected
+                    ? 'border-orange-500 bg-orange-500 text-white'
+                    : 'border-neutral-300 bg-white text-neutral-900 hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800')
+                }
+              >
+                {v}
+              </button>
+            )
+          })}
         </div>
       </div>
 
-      {/* Validate */}
-      <button
+      <Button
         type="button"
+        variant="success"
+        size="lg"
         onClick={submit}
         disabled={!canSubmit || props.pending}
-        className="min-h-[60px] w-full rounded-md bg-green-700 px-4 text-base font-semibold text-white transition hover:bg-green-800 disabled:opacity-50 dark:bg-green-600 dark:hover:bg-green-500"
+        className="w-full"
       >
         {props.pending ? 'Enregistrement…' : 'Valider le set'}
-      </button>
+      </Button>
     </div>
   )
 }
@@ -207,13 +230,15 @@ function NumericInput({
     onChange(Number(next.toFixed(2)))
   }
   return (
-    <div className="space-y-1">
-      <label className="text-sm font-medium">{label}</label>
+    <div className="space-y-1.5">
+      <label className="text-xs font-medium uppercase tracking-wider text-neutral-500">
+        {label}
+      </label>
       <div className="grid grid-cols-[auto_1fr_auto] gap-1">
         <button
           type="button"
           onClick={() => bump(-step)}
-          className="min-h-[48px] min-w-[44px] rounded-md border border-neutral-300 bg-white text-lg font-semibold hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-950 dark:hover:bg-neutral-900"
+          className="min-h-12 min-w-12 rounded-md border border-neutral-300 bg-white text-lg font-semibold hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:bg-neutral-800"
           aria-label={`-${step}`}
         >
           −
@@ -229,12 +254,12 @@ function NumericInput({
             const raw = e.target.value
             onChange(raw === '' ? '' : Number(raw))
           }}
-          className="min-h-[48px] rounded-md border border-neutral-300 bg-white px-2 text-center text-lg font-mono focus:border-neutral-900 focus:outline-none dark:border-neutral-700 dark:bg-neutral-950 dark:focus:border-neutral-100"
+          className="min-h-12 rounded-md border border-neutral-300 bg-white px-2 text-center font-mono text-xl tabular-nums focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 dark:border-neutral-700 dark:bg-neutral-900"
         />
         <button
           type="button"
           onClick={() => bump(step)}
-          className="min-h-[48px] min-w-[44px] rounded-md border border-neutral-300 bg-white text-lg font-semibold hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-950 dark:hover:bg-neutral-900"
+          className="min-h-12 min-w-12 rounded-md border border-neutral-300 bg-white text-lg font-semibold hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:bg-neutral-800"
           aria-label={`+${step}`}
         >
           +

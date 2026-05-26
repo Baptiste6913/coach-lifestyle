@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { Timer } from 'lucide-react'
 
 type Props = {
   totalSeconds: number
@@ -9,7 +10,12 @@ type Props = {
   nextLabel?: string
 }
 
-export function RestTimer({ totalSeconds, onComplete, onSkip, nextLabel }: Props) {
+export function RestTimer({
+  totalSeconds,
+  onComplete,
+  onSkip,
+  nextLabel,
+}: Props) {
   const [adjustedTotal, setAdjustedTotal] = useState(totalSeconds)
   const startedAtRef = useRef<number>(Date.now())
   const [now, setNow] = useState(Date.now())
@@ -53,8 +59,9 @@ export function RestTimer({ totalSeconds, onComplete, onSkip, nextLabel }: Props
   const progress = adjustedTotal > 0 ? elapsedS / adjustedTotal : 1
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-neutral-950/95 px-4 text-white">
-      <div className="mb-4 text-sm uppercase tracking-wider text-neutral-400">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-neutral-950/98 px-4 text-white">
+      <div className="mb-4 flex items-center gap-1.5 text-xs uppercase tracking-wider text-neutral-400">
+        <Timer size={14} aria-hidden="true" />
         Repos
       </div>
       <div className="text-[88px] font-mono font-semibold leading-none tabular-nums">
@@ -62,7 +69,7 @@ export function RestTimer({ totalSeconds, onComplete, onSkip, nextLabel }: Props
       </div>
       <div className="mt-4 h-2 w-full max-w-xs overflow-hidden rounded-full bg-neutral-800">
         <div
-          className="h-full bg-green-500 transition-all duration-200"
+          className="h-full bg-orange-500 transition-all duration-200"
           style={{ width: `${Math.min(100, progress * 100)}%` }}
         />
       </div>
@@ -71,25 +78,25 @@ export function RestTimer({ totalSeconds, onComplete, onSkip, nextLabel }: Props
           Prochain : <span className="text-neutral-200">{nextLabel}</span>
         </div>
       )}
-      <div className="mt-8 flex gap-3">
+      <div className="mt-8 flex gap-2">
         <button
           type="button"
           onClick={() => setAdjustedTotal((t) => Math.max(elapsedS, t - 15))}
-          className="rounded-md border border-neutral-700 bg-neutral-900 px-4 py-2.5 text-sm hover:bg-neutral-800"
+          className="min-h-12 rounded-md border border-neutral-700 bg-neutral-900 px-4 font-mono text-sm tabular-nums hover:bg-neutral-800"
         >
           −15 s
         </button>
         <button
           type="button"
           onClick={() => onSkip(elapsedS)}
-          className="rounded-md bg-green-700 px-6 py-2.5 text-sm font-semibold hover:bg-green-600"
+          className="min-h-12 rounded-md bg-green-600 px-6 text-sm font-semibold text-white hover:bg-green-500"
         >
           Skip
         </button>
         <button
           type="button"
           onClick={() => setAdjustedTotal((t) => t + 15)}
-          className="rounded-md border border-neutral-700 bg-neutral-900 px-4 py-2.5 text-sm hover:bg-neutral-800"
+          className="min-h-12 rounded-md border border-neutral-700 bg-neutral-900 px-4 font-mono text-sm tabular-nums hover:bg-neutral-800"
         >
           +15 s
         </button>
