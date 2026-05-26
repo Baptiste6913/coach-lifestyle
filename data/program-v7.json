@@ -1,0 +1,373 @@
+{
+  "name": "SUIVI_Baptiste_v7",
+  "version": 7,
+  "phase": "build",
+  "frequency_per_week": 4,
+  "duration_weeks": null,
+  "raw_text": "PROGRAMME SUIVI_Baptiste_v7 — 4 sessions/semaine\nLieu : Fitness Park République, Paris (Hammer Strength + Technogym)\nMoment : soir\n\n=== SPLIT HEBDOMADAIRE ===\n- Lundi soir : Pull A (18 sets)\n- Mardi soir : Push A (18 sets)\n- Mercredi : repos\n- Jeudi soir : Pull B (18 sets)\n- Vendredi soir : Push B (16 sets)\n- Samedi : repos\n- Dimanche : repos\n\n=== STRUCTURE DE CHARGE ===\nPyramide sur les 3 premiers compounds de chaque séance :\n- Set 1 : 70 % du poids de travail\n- Set 2 : 85 % du poids de travail\n- Set 3 : 100 % (set de travail)\n\nCharges constantes sur isolations et supersets pour l'efficacité temporelle.\n\n=== PROTOCOLES DE REPOS ===\n- Compounds : 2 minutes\n- Isolations : 60-75 secondes\n- À l'intérieur d'un superset : 15 secondes\n- Après une paire de superset : 90 secondes\n\n=== RÈGLES SUPERSETS ===\nLimités aux paires d'isolations sur muscles antagonistes uniquement. Pas de superset sur compounds. Pas de superset agoniste-agoniste.\n\n=== CARDIO ZONE 2 (intégré au programme) ===\n- Paramètres validés : tapis incliné 10° / 5,5 km/h → FC 128-135 BPM\n- Progression sur 12 semaines (plan détaillé dans onglet dédié)\n\n=== CONTENU DU FICHIER EXCEL (13 onglets) ===\n1. Dashboard\n2. Principes d'entraînement\n3. Session Pull A\n4. Session Push A\n5. Session Pull B\n6. Session Push B\n7. Plan cardio Zone 2 (12 semaines)\n8. Tracker fréquence cardiaque\n9. Analyse de volume\n10. Feuille nutrition (incl. stratégie restaurant)\n11. Checklist pré-session\n12. Références vidéo des exercices\n13. Changelog de version\n\n=== NOTE HISTORIQUE CRITIQUE ===\nLa structure pyramidale avait été retirée par erreur en v6 et a été réintroduite en v7 suite à un retour explicite. NE PAS retirer sans discussion explicite — c'est un paramètre structurel valorisé.\n\n=== CIBLES NUTRITION ASSOCIÉES ===\n- ~4000 kcal/jour\n- 150-170 g protéines (cible médiane 160 g)\n- Stratégie d'ordering au restaurant incluse\n\n=== PROTOCOLES DE VIE ASSOCIÉS ===\n- Nicotine : zéro (arrêt complet acquis)\n- Caféine : 3 cafés en semaine (~240mg) + pré-workout 180mg = ~350-420mg/jour ; zéro le week-end\n- RHR cible : ~55 BPM (baseline acquis depuis 72 BPM)",
+  "protected_params": {
+    "pyramidal_pct": [
+      0.7,
+      0.85,
+      1.0
+    ],
+    "rest_compound_s": 120,
+    "rest_isolation_s": 75,
+    "rest_superset_intra_s": 15,
+    "rest_superset_inter_s": 90
+  },
+  "notes": "Versioning v1→v7 avec changelog. Structure pyramidale sur compounds, split 4 jours, repos cadrés = paramètres structurels protégés (cf. retrait pyramidal en v6 → réintroduit en v7). Ne pas modifier sans discussion explicite.",
+  "sessions": [
+    {
+      "name": "Pull A",
+      "day_of_week": 1,
+      "order_index": 1,
+      "target_sets_total": 18,
+      "notes": "target_sets_total = decompte working sets annonce par le programme original (exclut les sets pyramidaux warmup 70%/85%). Le total reel en DB (incluant warmup) est plus eleve.",
+      "exercises": [
+        {
+          "order_index": 1,
+          "exercise_slug": "tirage-vertical-prise-neutre",
+          "is_pyramidal": true,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 6,
+          "target_reps_high": 10,
+          "warmup_protocol": "Barre vide ×10, puis 50 % ×6 (contraction scapula)"
+        },
+        {
+          "order_index": 2,
+          "exercise_slug": "rowing-hammer-strength-unilateral",
+          "is_pyramidal": true,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 8,
+          "target_reps_high": 10,
+          "warmup_protocol": "1 série légère (tirer avec le coude)"
+        },
+        {
+          "order_index": 3,
+          "exercise_slug": "tirage-horizontal-cable-poitrine",
+          "is_pyramidal": true,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 10,
+          "target_reps_high": 12,
+          "rest_seconds_override": 90,
+          "warmup_protocol": "1 série légère (contraction pic 1 sec)"
+        },
+        {
+          "order_index": 4,
+          "exercise_slug": "curl-barre-ez",
+          "is_pyramidal": false,
+          "superset_group": "A",
+          "superset_position": 1,
+          "target_sets": 3,
+          "target_reps_low": 8,
+          "target_reps_high": 10,
+          "execution_cues": "Charge constante, 1 RIR"
+        },
+        {
+          "order_index": 5,
+          "exercise_slug": "face-pulls",
+          "is_pyramidal": false,
+          "superset_group": "A",
+          "superset_position": 2,
+          "target_sets": 3,
+          "target_reps_low": 12,
+          "target_reps_high": 15,
+          "execution_cues": "Coudes hauts, rotation externe à la fin"
+        },
+        {
+          "order_index": 6,
+          "exercise_slug": "curl-incline-halteres",
+          "is_pyramidal": false,
+          "superset_group": "B",
+          "superset_position": 1,
+          "target_sets": 3,
+          "target_reps_low": 10,
+          "target_reps_high": 12,
+          "execution_cues": "Bras en extension complète en bas"
+        },
+        {
+          "order_index": 7,
+          "exercise_slug": "rear-delt-fly-pec-deck",
+          "is_pyramidal": false,
+          "superset_group": "B",
+          "superset_position": 2,
+          "target_sets": 3,
+          "target_reps_low": 12,
+          "target_reps_high": 15,
+          "execution_cues": "Coudes légèrement fléchis, squeeze arrière"
+        }
+      ]
+    },
+    {
+      "name": "Push A",
+      "day_of_week": 2,
+      "order_index": 2,
+      "target_sets_total": 18,
+      "exercises": [
+        {
+          "order_index": 1,
+          "exercise_slug": "developpe-couche-halteres",
+          "is_pyramidal": true,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 6,
+          "target_reps_high": 8,
+          "warmup_protocol": "2 séries (barre vide → 50 %), contrôle descente"
+        },
+        {
+          "order_index": 2,
+          "exercise_slug": "developpe-militaire-hammer-strength",
+          "is_pyramidal": true,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 8,
+          "target_reps_high": 10,
+          "warmup_protocol": "1 série à 50 % (ne pas verrouiller violemment)"
+        },
+        {
+          "order_index": 3,
+          "exercise_slug": "dips-lestes",
+          "is_pyramidal": true,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 8,
+          "target_reps_high": 10,
+          "warmup_protocol": "1 série au poids du corps, inclinaison avant pour cibler pecs"
+        },
+        {
+          "order_index": 4,
+          "exercise_slug": "pec-deck",
+          "is_pyramidal": false,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 10,
+          "target_reps_high": 12,
+          "execution_cues": "Charge constante, contraction pic 1 sec"
+        },
+        {
+          "order_index": 5,
+          "exercise_slug": "elevations-laterales-halteres",
+          "is_pyramidal": false,
+          "superset_group": "A",
+          "superset_position": 1,
+          "target_sets": 3,
+          "target_reps_low": 12,
+          "target_reps_high": 15,
+          "execution_cues": "Charge qui fait échouer à 12-15, coudes légèrement fléchis"
+        },
+        {
+          "order_index": 6,
+          "exercise_slug": "extensions-triceps-corde",
+          "is_pyramidal": false,
+          "superset_group": "A",
+          "superset_position": 2,
+          "target_sets": 3,
+          "target_reps_low": 10,
+          "target_reps_high": 12,
+          "execution_cues": "Coudes verrouillés contre les flancs"
+        },
+        {
+          "order_index": 7,
+          "exercise_slug": "elevations-laterales-cable-unilateral",
+          "is_pyramidal": false,
+          "superset_group": "B",
+          "superset_position": 1,
+          "target_sets": 3,
+          "target_reps_low": 12,
+          "target_reps_high": 15,
+          "execution_cues": "Amplitude complète, ne pas basculer le buste"
+        },
+        {
+          "order_index": 8,
+          "exercise_slug": "pushdown-triceps-barre-v",
+          "is_pyramidal": false,
+          "superset_group": "B",
+          "superset_position": 2,
+          "target_sets": 3,
+          "target_reps_low": 10,
+          "target_reps_high": 12,
+          "execution_cues": "Contraction en bas 1 sec"
+        }
+      ]
+    },
+    {
+      "name": "Pull B",
+      "day_of_week": 4,
+      "order_index": 3,
+      "target_sets_total": 18,
+      "exercises": [
+        {
+          "order_index": 1,
+          "exercise_slug": "tractions-lestees",
+          "is_pyramidal": true,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 6,
+          "target_reps_high": 10,
+          "warmup_protocol": "2 séries (assisté max → charge intermédiaire)"
+        },
+        {
+          "order_index": 2,
+          "exercise_slug": "rowing-barre-t",
+          "is_pyramidal": true,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 8,
+          "target_reps_high": 10,
+          "warmup_protocol": "1 série légère, buste à 45°"
+        },
+        {
+          "order_index": 3,
+          "exercise_slug": "pullover-cable-corde",
+          "is_pyramidal": true,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 10,
+          "target_reps_high": 12,
+          "rest_seconds_override": 90,
+          "warmup_protocol": "1 série légère, étirement lats en haut"
+        },
+        {
+          "order_index": 4,
+          "exercise_slug": "high-cable-curls",
+          "is_pyramidal": false,
+          "superset_group": "A",
+          "superset_position": 1,
+          "target_sets": 3,
+          "target_reps_low": 10,
+          "target_reps_high": 12,
+          "execution_cues": "2 poulies hautes, contraction au milieu"
+        },
+        {
+          "order_index": 5,
+          "exercise_slug": "face-pulls",
+          "is_pyramidal": false,
+          "superset_group": "A",
+          "superset_position": 2,
+          "target_sets": 3,
+          "target_reps_low": 12,
+          "target_reps_high": 15,
+          "execution_cues": "Coudes hauts, rotation externe à la fin"
+        },
+        {
+          "order_index": 6,
+          "exercise_slug": "curl-marteau-corde",
+          "is_pyramidal": false,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 10,
+          "target_reps_high": 12,
+          "execution_cues": "Focus brachial + brachio-radial"
+        },
+        {
+          "order_index": 7,
+          "exercise_slug": "cable-crunches-genoux",
+          "is_pyramidal": false,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 12,
+          "target_reps_high": 15,
+          "execution_cues": "Flexion colonne complète, hanches fixes"
+        }
+      ]
+    },
+    {
+      "name": "Push B",
+      "day_of_week": 5,
+      "order_index": 4,
+      "target_sets_total": 16,
+      "exercises": [
+        {
+          "order_index": 1,
+          "exercise_slug": "developpe-couche-incline-barre",
+          "is_pyramidal": true,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 6,
+          "target_reps_high": 8,
+          "warmup_protocol": "2 séries (barre vide → 50 %), inclinaison 30°"
+        },
+        {
+          "order_index": 2,
+          "exercise_slug": "developpe-epaules-halteres-assis",
+          "is_pyramidal": true,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 8,
+          "target_reps_high": 10,
+          "warmup_protocol": "1 série légère, dos collé au banc"
+        },
+        {
+          "order_index": 3,
+          "exercise_slug": "ecarte-poulie-haute-pec-inferieur",
+          "is_pyramidal": true,
+          "superset_group": null,
+          "superset_position": null,
+          "target_sets": 3,
+          "target_reps_low": 10,
+          "target_reps_high": 12,
+          "rest_seconds_override": 90,
+          "warmup_protocol": "1 série légère, croiser légèrement en bas"
+        },
+        {
+          "order_index": 4,
+          "exercise_slug": "elevations-laterales-machine",
+          "is_pyramidal": false,
+          "superset_group": "A",
+          "superset_position": 1,
+          "target_sets": 3,
+          "target_reps_low": 12,
+          "target_reps_high": 15
+        },
+        {
+          "order_index": 5,
+          "exercise_slug": "skull-crushers-ez",
+          "is_pyramidal": false,
+          "superset_group": "A",
+          "superset_position": 2,
+          "target_sets": 3,
+          "target_reps_low": 8,
+          "target_reps_high": 10
+        },
+        {
+          "order_index": 6,
+          "exercise_slug": "elevations-frontales-halteres",
+          "is_pyramidal": false,
+          "superset_group": "B",
+          "superset_position": 1,
+          "target_sets": 2,
+          "target_reps_low": 12,
+          "target_reps_high": 15
+        },
+        {
+          "order_index": 7,
+          "exercise_slug": "dips-machine-triceps",
+          "is_pyramidal": false,
+          "superset_group": "B",
+          "superset_position": 2,
+          "target_sets": 2,
+          "target_reps_low": 10,
+          "target_reps_high": 12
+        }
+      ]
+    }
+  ]
+}
